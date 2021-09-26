@@ -3,7 +3,10 @@ import os
 
 print("Test")
 
+#def Command(x):
 def Command(x):
+    #print("Virker cd commanden?")
+    
     rc = os.fork()
     if rc == 0:
         print("Child process (pid", os.getpid(),")")
@@ -13,32 +16,23 @@ def Command(x):
         os.wait()
         print("Parent process (pid:", os.getpid,")")
     
-def wait():
-    os.wait()
-
-def getcwd():
-    print(os.getcwd())
-
-def ls():
-    os.listdir()
-
-def cd():
-    os.chdir()
-
-def exit():
-    os._exit()
+def cd(x):
+    os.chdir(x)
 
 if __name__ == "__main__":
     
     while 1:
+        print("TEST2")
+        #x = input("$ ").split()
         x = input("$ ").split()
+        if x[0] == "exit":
+            break
         if x[0] == "cd":
-            cd()
-        Command(x)
+            #cd(x)
+            cd(x[1])
+        else:
+            Command(x)
     #run()
 
-'''
 
-
-'''
 
