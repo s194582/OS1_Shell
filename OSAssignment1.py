@@ -33,6 +33,23 @@ if __name__ == "__main__":
         #cd system call for changing the directory x[1] is the target directory.    
         if x[0] == "cd":
             cd(x[1])
+        for m in x:
+            if m == "|":
+                r, w = os.pipe()
+                rc2 = os.fork()
+                if rc2:
+                    os.close(w)
+                    r = os.fdopen(r)
+                    print("This is parent process, write something to for the child process to read")
+                    str = r.read()
+                    print("text ", str)
+                else:
+                    os.close(r)
+                    w = os.fdopen(w, 'w')
+                    print("child writing ", w)
+                    w.write("Written by child:")
+                    w.close()
+
         else:
         #we use command for all the systems calls that needs a child process i.e ls, cat, pwd.
             Command(x)
