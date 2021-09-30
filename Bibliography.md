@@ -1,8 +1,8 @@
+BIBLIOGRAPHY
+
 https://www.geeksforgeeks.org/python-os-pipe-method/
 
 https://docs.python.org/3/library/os.html
-
-https://www.python-course.eu/pipes.php 
 
 https://www.tutorialspoint.com/python/os_pipe.htm
 
