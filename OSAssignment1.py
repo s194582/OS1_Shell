@@ -16,7 +16,7 @@ def Command(x):
         os.wait() #Stop the parent process, until the child process is done. 
         
 #define the cd command
-def cd(x)
+def cd(x):
     #check if there are more than one argument in user input
     if len(y) > 1:
         #Take second argument from user input and move to new directory
