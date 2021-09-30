@@ -2,31 +2,30 @@ import os
 
 STDIN = 0
 STDOUT = 1 #dette er for så den ikke smider den ud til skærmen ved exec() funktionen
-print("Test")
 
-
-#def Command(x):
 def Command(x):
-
-    #initialisation of the fork system call. 
+    #create a child process
     rc = os.fork()
-    #if rc is equal to 0 the creation of the child process succeeded. 
+    #if rc is equal to 0 the child process is running.
     if rc == 0:
-        print("Child process (pid", os.getpid(),")")
-        os.execvp(x[0], x) #this terminates the child process and returns to the parent process.
-
+        #execute a new progam, replacing the current process. when done running the process, terminate the process
+        os.execvp(x[0], x) 
+        
     if rc > 0:
-        os.wait() #wait call so the child process finishes before returning to the parent process. 
-        print("Parent process (pid:", os.getpid(),")")
-
+        os.wait() #Stop the parent process, until the child process is done. 
+        
+#define the cd command
 def cd(x):
+    #when giving a path as argument, the shell redirect to the new directory
     os.chdir(x)
 
 def pipe(x):
-    #File descriptors r,w for Reading and Writing
+    #The string x is split, and defined as two new strings
     y = x[0].split()
     z = x[1].split()
+    #File descriptors r,w for Reading and Writing
     r, w = os.pipe()
+    #create a child process
     rc1 = os.fork()
 
     #Check if fork() has been run
@@ -35,15 +34,14 @@ def pipe(x):
 
     if rc1 == 0:
         #child
-        print("TEST!!!!!")
-
-        print("Child process (pid", os.getpid(),")")
-       
+        #create a new child process inside the earlier child process.
+        #By doing this, the old child process will be both a child process, but also a parent process.
         rc3 = os.fork()
         if rc3 == 0:
             #child
             os.close(r)
             os.dup2(w, STDOUT)
+            #close the child process
             exit()
             
             
@@ -52,36 +50,52 @@ def pipe(x):
             os.close(w)
             os.dup2(r, STDIN) #kopirer processen og sætter den ene ende af pipen istedet for STDOUT
                 
-            os.wait()
+            os.wait() #Stop the parent process, until the child process is done.
+            #execute a new progam, replacing the current process. when done running the process, terminate the process
             os.execvp(z[0], z)
     else:
-        #parents
-        os.wait()
+        #parent
+        os.wait() #Stop the parent process, until the child process is done. 
 
 
 
 if __name__ == "__main__":
 
     while 1:
+        #Variable used for test
         i = 0
-        x = input("$ ")
-
+        x = input("$ ") #Take and define the user input
+        #takes the user input and splits the string between each space
+        #space 0 is the system command and space 1 is the target
+        y = x.split()
+        
+        #check if user input is using pipe
         if "|" in x:
+            #Give variable i the value 1
             i = 1
+            #Run the defined function pipe(), 
+            #while also splitting the user input in two, where "|" is in the user input
             pipe(x.split("|"))
 
 
-        #terminates the terminal.
-        if x[0] == "exit": 
+        #Check if user input is equal to "exit"
+        if y[0] == "exit": 
+            #Stops the process.
             break
-        #cd system call for changing the directory x[1] is the target directory.    
-        if x[0] == "cd":
-            cd(x[1])
+            
+        #check if user input is equal to "cd"    
+        if y[0] == "cd":
+            #run the defined function cd()
+            #with the last part of the user input as argument
+            cd(y[1])
 
-        else:    
+        else:
+            #check if the variable i is equal to 0
             if i == 0:
-                y = x.split() #takes the user input and splits the string between each space
+                #takes the user input and splits the string between each space
                 #space 0 is the system command and space 1 is the target
+                #y = x.split() 
+                #run the defined function Command() with the string y as argument
                 Command(y) 
 
 
