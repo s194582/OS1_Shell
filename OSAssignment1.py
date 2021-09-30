@@ -1,3 +1,4 @@
+
 import os
 
 STDIN = 0
@@ -16,8 +17,12 @@ def Command(x):
         
 #define the cd command
 def cd(x):
+    x = x if x else "~/"
+    if len(y) > 1:
+        os.chdir(x[1])
     #when giving a path as argument, the shell redirect to the new directory
-    os.chdir(x)
+    os.chdir(os.environ["HOME"])
+
 
 def pipe(x):
     #The string x is split, and defined as two new strings
@@ -87,7 +92,7 @@ if __name__ == "__main__":
         if y[0] == "cd":
             #run the defined function cd()
             #with the last part of the user input as argument
-            cd(y[1])
+            cd(y)
 
         else:
             #check if the variable i is equal to 0
@@ -97,6 +102,7 @@ if __name__ == "__main__":
                 #y = x.split() 
                 #run the defined function Command() with the string y as argument
                 Command(y) 
+
 
 
 
