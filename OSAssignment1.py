@@ -16,17 +16,18 @@ def Command(x):
         os.wait() #Stop the parent process, until the child process is done. 
         
 #define the cd command
-def cd(x):
-    x = x if x else "~/"
+def cd(x)
+    #check if there are more than one argument in user input
     if len(y) > 1:
+        #Take second argument from user input and move to new directory
         os.chdir(x[1])
-    #when giving a path as argument, the shell redirect to the new directory
-    os.chdir(os.environ["HOME"])
+    else:
+        #go to home directory
+        os.chdir(os.environ["HOME"])
 
 
 def pipe(x):
-    #The string x is split, and defined as two new strings
-    y = x[0].split()
+    #The string x is split, and defined as two new string()
     z = x[1].split()
     #File descriptors r,w for Reading and Writing
     r, w = os.pipe()
@@ -91,7 +92,7 @@ if __name__ == "__main__":
         #check if user input is equal to "cd"    
         if y[0] == "cd":
             #run the defined function cd()
-            #with the last part of the user input as argument
+            #the user input as argument
             cd(y)
 
         else:
