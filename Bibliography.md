@@ -6,7 +6,7 @@ https://docs.python.org/3/library/os.html
 
 https://www.tutorialspoint.com/python/os_pipe.htm
 
-Operating Systems: Internals and Design Principles - William Stalling
+Operating Systems: Internals and Design Principles - William Stalling, page 116
 
 https://www.digitalocean.com/community/tutorials/an-introduction-to-linux-i-o-redirection
 
